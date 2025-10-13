@@ -1,0 +1,11 @@
+# Gradle build files and cache
+.gradle/
+build/
+out/
+
+# IntelliJ project files
+.idea/
+*.iml
+
+# Loom cache
+.loom-cache/

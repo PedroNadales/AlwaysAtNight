@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "always_at_night",
+  "version": "1.0.0",
+  "name": "Always at night",
+  "description": "",
+  "authors": ["Pedro0508"],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/always_at_night/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "org.pedro0508.always_at_night.client.Always_at_nightDataGenerator"
+    ],
+    "client": [
+      "org.pedro0508.always_at_night.client.Always_at_nightClient"
+    ],
+    "main": [
+      "org.pedro0508.always_at_night.Always_at_night"
+    ]
+  },
+  "mixins": [
+    "always_at_night.mixins.json",
+    {
+      "config": "always_at_night.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "minecraft": ">=1.19.0"
+  }
+}
