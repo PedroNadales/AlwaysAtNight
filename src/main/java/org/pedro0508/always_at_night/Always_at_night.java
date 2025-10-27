@@ -13,8 +13,8 @@ import java.util.Map;
 
 public class Always_at_night implements ModInitializer {
     // Tiempos en ticks (20 ticks = 1 segundo)
-    private static final long PEACE_DURATION = 10 * 60 * 20;
-    private static final long MONSTER_DURATION = 5 * 60 * 20;
+    private static final long PEACE_DURATION = 1 * 60 * 20;
+    private static final long MONSTER_DURATION = 1 * 60 * 20;
     
     // Mapa para almacenar el estado de cada mundo
     private final Map<ServerWorld, WorldState> worldStates = new HashMap<>();
@@ -45,15 +45,10 @@ public class Always_at_night implements ModInitializer {
         WorldState state = new WorldState();
         state.nextCycleTime = world.getTime() + PEACE_DURATION;
         worldStates.put(world, state);
+
         
-        // Mensaje a jugadores
-        server.getPlayerManager().broadcast(
-            Text.literal("§e[Always at Night] §f¡Mod activado! Los monstruos aparecerán pronto..."),
-            false
-        );
-        
-        System.out.println("[Always at Night] Mundo configurado. Próximo ciclo en: " + 
-                          (state.nextCycleTime - world.getTime()) / 20 + " segundos");
+        System.out.println("[Always at Night] World loaded, Next cycle in: " +
+                          (state.nextCycleTime - world.getTime()) / 20 + " seconds");
     }
 
     private void onWorldTick(ServerWorld world) {
@@ -64,7 +59,7 @@ public class Always_at_night implements ModInitializer {
 
         WorldState state = worldStates.get(world);
         if (state == null) {
-            System.out.println("[Always at Night] Estado no encontrado para el mundo, esperando a que se cargue...");
+            System.out.println("[Always at Night] State of the world not found, whaiting to load...");
             return;
         }
 
@@ -83,11 +78,10 @@ public class Always_at_night implements ModInitializer {
                 state.nextCycleTime = world.getTime() + MONSTER_DURATION;
                 world.getGameRules().get(GameRules.DO_MOB_SPAWNING).set(true, server);
                 
-                // Mensaje a jugadores
-                server.getPlayerManager().broadcast(
-                    Text.literal("§c[Always at Night] §f¡The night grows darker... Monsters are now roaming around..."),
-                    false
-                );
+                // Mensaje a jugadores en la action bar
+                server.getPlayerManager().getPlayerList().forEach(player -> {
+                    player.sendMessage(Text.literal("§c[Always at Night] §f¡The night grows darker... Monsters are now roaming around..."), true);
+                });
                 
                 System.out.println("[Always at Night] Fase de monstruos activada");
             } else {
@@ -95,11 +89,10 @@ public class Always_at_night implements ModInitializer {
                 state.nextCycleTime = world.getTime() + PEACE_DURATION;
                 world.getGameRules().get(GameRules.DO_MOB_SPAWNING).set(false, server);
                 
-                // Mensaje a jugadores
-                server.getPlayerManager().broadcast(
-                    Text.literal("§a[Always at Night] §fThe night becomes calmer... Monsters have stopped appearing."),
-                    false
-                );
+                // Mensaje a jugadores en la action bar
+                server.getPlayerManager().getPlayerList().forEach(player -> {
+                    player.sendMessage(Text.literal("§a[Always at Night] §fThe night becomes calmer... Monsters have stopped appearing."), true);
+                });
                 
                 System.out.println("[Always at Night] Fase pacífica activada. Próxima fase de monstruos en: " + 
                                  (state.nextCycleTime - world.getTime()) / 20 + " segundos");
