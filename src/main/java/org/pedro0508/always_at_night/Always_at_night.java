@@ -13,8 +13,8 @@ import java.util.Map;
 
 public class Always_at_night implements ModInitializer {
     // Tiempos en ticks (20 ticks = 1 segundo)
-    private static final long PEACE_DURATION = 1 * 60 * 20;
-    private static final long MONSTER_DURATION = 1 * 60 * 20;
+    private static final long PEACE_DURATION = 10 * 60 * 20;
+    private static final long MONSTER_DURATION = 5 * 60 * 20;
     
     // Mapa para almacenar el estado de cada mundo
     private final Map<ServerWorld, WorldState> worldStates = new HashMap<>();
